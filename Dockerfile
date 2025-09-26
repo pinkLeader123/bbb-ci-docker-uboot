@@ -1,12 +1,24 @@
 FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y \
-    build-essential gcc-arm-linux-gnueabihf qemu-user
+# Cài toolchain ARM + deps build U-Boot
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    wget \
+    ca-certificates \
+    bison \
+    flex \
+    python3 \
+    python3-distutils \
+    libssl-dev \
+    libssl3 \
+    libgnutls28-dev \
+    device-tree-compiler \
+    u-boot-tools \
+    gcc-arm-linux-gnueabihf \
+    crossbuild-essential-armhf \
+    qemu-system-arm \
+    gdb-multiarch \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-COPY hello.c .
-
-# Cross compile cho ARM (BeagleBone Black là ARMv7)
-RUN arm-linux-gnueabihf-gcc hello.c -o hello-arm
-
-CMD ["qemu-arm", "./hello-arm"]
+WORKDIR /build

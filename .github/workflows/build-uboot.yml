@@ -13,13 +13,18 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: docker build -t bbb-uboot ./lab4-uboot
+        # Sửa: Thay thế ./lab4-uboot thành . (Build context là thư mục hiện tại)
+        run: docker build -t bbb-uboot . 
 
       - name: Run U-Boot build inside container
-        run: docker run --rm -v ${{ github.workspace }}/lab4-uboot:/build bbb-uboot ./build_uboot.sh
+        # Sửa: Thay thế /lab4-uboot:/build thành /u-boot:/build
+        # Lưu ý: Vì build_uboot.sh nằm ngoài thư mục u-boot, 
+        # ta mount thư mục gốc và chạy script từ đó
+        run: docker run --rm -v ${{ github.workspace }}:/build bbb-uboot ./build_uboot.sh
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: uboot-build
-          path: lab4-uboot/u-boot/{MLO,u-boot.img}
+          # Sửa: Thay thế lab4-uboot/u-boot/ thành u-boot/
+          path: u-boot/{MLO,u-boot.img}
