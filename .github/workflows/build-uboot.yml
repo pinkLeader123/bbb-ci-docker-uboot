@@ -20,7 +20,7 @@ jobs:
         # Sửa: Thay thế /lab4-uboot:/build thành /u-boot:/build
         # Lưu ý: Vì build_uboot.sh nằm ngoài thư mục u-boot, 
         # ta mount thư mục gốc và chạy script từ đó
-        run: docker run --rm -v ${{ github.workspace }}:/build bbb-uboot ./build_uboot.sh
+        run: docker run --rm -u 1001 -v ${{ github.workspace }}:/build bbb-uboot ./build_uboot.sh
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
