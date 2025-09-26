@@ -8,7 +8,7 @@ fi
 
 cd u-boot
 git fetch --all
-git checkout master   # chọn bản ổn định mới
+git checkout main   # chọn bản ổn định mới
 
 # Clean build cũ
 make distclean
